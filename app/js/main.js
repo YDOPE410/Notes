@@ -3,64 +3,13 @@ let noteContaier = document.getElementById('note-container');
 let cancelNewNoteButton = document.getElementById('new-note-cancel-button');
 let addNewNoteButton = document.getElementById('new-note-add-button');
 let mainWrapper = document.getElementById('main-wrapper');
+let localStorageItemName = "Notes";
 
 const uuid = () => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'.
     replace(/[x]/g,
         (c, r) => ('x' == c ?
             (r = Math.random() * 16 | 0) :
             (r & 0x3 | 0x8)).toString(16));
-
-class Note {
-
-    constructor(id, title, description, left, top) {
-        this._id = id;
-        this._title = title;
-        this._description = description;
-        this._left = left;
-        this._top = top;
-    }
-
-    get id() {
-        return this._id;
-    }
-
-    set id(id) {
-        this._id = id;
-    }
-
-    get title() {
-        return this._title;
-    }
-
-    set title(title) {
-        this._title = title;
-    }
-
-    get description() {
-        return this._description;
-    }
-
-    set description(description) {
-        this._description = description;
-    }
-
-    get left() {
-        return this._left;
-    }
-
-    set left(left) {
-        this._left = left;
-    }
-
-    get top() {
-        return this._top;
-    }
-
-    set top(top) {
-        this._top = top;
-    }
-}
-
 
 function getValue(id) {
     return document.getElementById(id).value;
@@ -91,12 +40,19 @@ function addNote(title, id, top, left) {
 }
 
 function addNoteToStorage(note) {
-    localStorage.setItem(note.id, JSON.stringify(note));
+    if (localStorage.getItem(localStorageItemName) == null) {
+        localStorage.setItem(localStorageItemName, JSON.stringify({ [note.id]: note, }));
+    }
+    else {
+        let obj = JSON.parse(localStorage.getItem(localStorageItemName));
+        obj[note.id] = note;
+        localStorage.setItem(localStorageItemName, JSON.stringify(obj));
+    }
 }
 
 function openNote(id) {
     mainWrapper.hidden = true;
-    let note = JSON.parse(localStorage.getItem(id));
+    let note = JSON.parse(localStorage.getItem(localStorageItemName))[id];
     let divOpenedNote = document.createElement('div');
     divOpenedNote.id = 'opened-note';
 
@@ -104,7 +60,7 @@ function openNote(id) {
     divOpenedNoteTitle.className = 'opened-note-title';
     let h1OpenedNote = document.createElement('h1');
     h1OpenedNote.id = 'opened-note-title';
-    h1OpenedNote.textContent = note._title;
+    h1OpenedNote.textContent = note.title;
     divOpenedNoteTitle.append(h1OpenedNote);
 
 
@@ -112,7 +68,7 @@ function openNote(id) {
     divOpenedNoteDescription.className = 'opened-note-description';
     let pOpenedNote = document.createElement('p');
     pOpenedNote.id = "opened-note-description";
-    pOpenedNote.textContent = note._description;
+    pOpenedNote.textContent = note.description;
     divOpenedNoteDescription.append(pOpenedNote);
 
     let divOpenedNoteButton = document.createElement('div');
@@ -141,7 +97,9 @@ function deleteNote(note) {
 }
 
 function deleteNoteFromStorage(id) {
-    localStorage.removeItem(id);
+    let obj = JSON.parse(localStorage.getItem(localStorageItemName));
+    delete obj[id];
+    localStorage.setItem(localStorageItemName, JSON.stringify(obj));
 }
 
 document.addEventListener('keydown', function (event) {
@@ -158,7 +116,13 @@ addNewNoteButton.addEventListener('click', () => {
     let titleValue = getValue('new-note-title');
     let descriptionValue = getValue('new-note-description');
     if (titleValue.length > 0 && descriptionValue.length > 0) {
-        let note = new Note(uuid(), titleValue, descriptionValue, 0, 100);
+        let note = {
+            id: uuid(),
+            title: titleValue,
+            description: descriptionValue,
+            left: 0,
+            top:  100
+        }
         addNote(titleValue, note.id, note.top, note.left);
         addNoteToStorage(note);
         setValue('new-note-title', "");
@@ -193,13 +157,11 @@ document.addEventListener('dblclick', (e) => {
 
 })
 
-
-
 document.addEventListener('mousedown', function (e) {
     let currentElementParentNode = e.target.parentNode;
     if (currentElementParentNode.className == 'note') {
         let currentNote = document.getElementById(currentElementParentNode.id);
-        let storageObj = JSON.parse(localStorage.getItem(currentElementParentNode.id));
+        let storageObj = JSON.parse(localStorage.getItem(localStorageItemName))[currentElementParentNode.id];
         currentNote.onmousedown = function (e) {
             let coords = getCoords(currentNote);
             let shiftX = e.pageX - coords.left;
@@ -210,8 +172,8 @@ document.addEventListener('mousedown', function (e) {
             function moveAt(e) {
                 currentNote.style.left = e.pageX - shiftX + 'px';
                 currentNote.style.top = e.pageY - shiftY + 'px';
-                storageObj._top = e.pageY - shiftY;
-                storageObj._left = e.pageX - shiftX;
+                storageObj.top = e.pageY - shiftY;
+                storageObj.left = e.pageX - shiftX;
             }
 
             document.onmousemove = function (e) {
@@ -221,7 +183,9 @@ document.addEventListener('mousedown', function (e) {
             currentNote.onmouseup = function () {
                 document.onmousemove = null;
                 currentNote.onmouseup = null;
-                localStorage.setItem(currentElementParentNode.id, JSON.stringify(storageObj));
+                let localStorageObject = JSON.parse(localStorage.getItem(localStorageItemName));
+                localStorageObject[currentElementParentNode.id] = storageObj;
+                localStorage.setItem(localStorageItemName, JSON.stringify(localStorageObject));
             };
         }
 
@@ -240,9 +204,7 @@ document.addEventListener('mousedown', function (e) {
 })
 
 window.addEventListener('DOMContentLoaded', function () {
-    let objectKeys = Object.keys(localStorage);
-    for (let i = 0; i < objectKeys.length; i++) {
-        let item = JSON.parse(localStorage.getItem(objectKeys[i]));
-        addNote(item._title, item._id, item._top, item._left)
-    }
+    let notes = JSON.parse(localStorage.getItem(localStorageItemName));
+    let keys = Object.keys(notes);
+    keys.forEach(e => addNote(notes[e].title, notes[e].id, notes[e].top, notes[e].left))
 })
