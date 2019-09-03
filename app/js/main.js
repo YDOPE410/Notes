@@ -19,15 +19,20 @@ function setValue(id, value) {
     document.getElementById(id).value = value;
 }
 
-function addNote(title, id, top, left) {
+function addNote(title, description, id, top, left) {
     let div = document.createElement('div');
     let p = document.createElement('p');
     let h4 = document.createElement('h4');
     let input = document.createElement('input');
+    let divp = document.createElement('div');
     input.type = 'button';
     input.value = '[X]';
     input.className = 'delete-note-button';
-    p.textContent = '...';
+    divp.className = 'note-description'
+    if (description.length > 40)
+        p.textContent = description.slice(0,40) + '...';
+    else
+        p.textContent = description
     h4.textContent = title;
     div.className = 'note';
     div.style.top = top + 'px';
@@ -35,7 +40,8 @@ function addNote(title, id, top, left) {
     div.id = id;
     div.append(input);
     div.append(h4);
-    div.append(p);
+    divp.append(p);
+    div.append(divp);
     noteContaier.append(div);
 }
 
@@ -102,13 +108,17 @@ function deleteNoteFromStorage(id) {
     localStorage.setItem(localStorageItemName, JSON.stringify(obj));
 }
 
+function controlHiddenParam() {
+    if (!newNote.hidden) {
+        newNote.hidden = true;
+    } else {
+        newNote.hidden = false;
+    }
+}
+
 document.addEventListener('keydown', function (event) {
     if (event.ctrlKey && event.key === 'n' && event.altKey) {
-        if (!newNote.hidden) {
-            newNote.hidden = true;
-        } else {
-            newNote.hidden = false;
-        }
+        controlHiddenParam();
     }
 })
 
@@ -121,9 +131,9 @@ addNewNoteButton.addEventListener('click', () => {
             title: titleValue,
             description: descriptionValue,
             left: 0,
-            top:  100
+            top: 100
         }
-        addNote(titleValue, note.id, note.top, note.left);
+        addNote(titleValue,descriptionValue, note.id, note.top, note.left);
         addNoteToStorage(note);
         setValue('new-note-title', "");
         setValue('new-note-description', "");
@@ -151,7 +161,11 @@ document.addEventListener('click', (e) => {
 
 document.addEventListener('dblclick', (e) => {
     let currentElementParentNode = e.target.parentNode;
+    if (e.target.className == 'note' || e.target.className == 'note-description'){
+        openNote(e.target.id)
+    }
     if (currentElementParentNode.className == 'note') {
+        
         openNote(currentElementParentNode.id);
     }
 
@@ -163,13 +177,15 @@ document.addEventListener('mousedown', function (e) {
         let currentNote = document.getElementById(currentElementParentNode.id);
         let storageObj = JSON.parse(localStorage.getItem(localStorageItemName))[currentElementParentNode.id];
         currentNote.onmousedown = function (e) {
+            document.getElementById('main-wrapper').style.cursor = 'grabbing';
             let coords = getCoords(currentNote);
             let shiftX = e.pageX - coords.left;
             let shiftY = e.pageY - coords.top;
-
+           
             moveAt(e);
 
             function moveAt(e) {
+                
                 currentNote.style.left = e.pageX - shiftX + 'px';
                 currentNote.style.top = e.pageY - shiftY + 'px';
                 storageObj.top = e.pageY - shiftY;
@@ -181,6 +197,7 @@ document.addEventListener('mousedown', function (e) {
             };
 
             currentNote.onmouseup = function () {
+                document.getElementById('main-wrapper').style.cursor = 'default';
                 document.onmousemove = null;
                 currentNote.onmouseup = null;
                 let localStorageObject = JSON.parse(localStorage.getItem(localStorageItemName));
@@ -206,5 +223,5 @@ document.addEventListener('mousedown', function (e) {
 window.addEventListener('DOMContentLoaded', function () {
     let notes = JSON.parse(localStorage.getItem(localStorageItemName));
     let keys = Object.keys(notes);
-    keys.forEach(e => addNote(notes[e].title, notes[e].id, notes[e].top, notes[e].left))
+    keys.forEach(e => addNote(notes[e].title,notes[e].description, notes[e].id, notes[e].top, notes[e].left))
 })
