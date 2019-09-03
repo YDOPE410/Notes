@@ -73,7 +73,6 @@ function openNote(id) {
     let divOpenedNoteDescription = document.createElement('div');
     divOpenedNoteDescription.className = 'opened-note-description';
     let pOpenedNote = document.createElement('p');
-    pOpenedNote.id = "opened-note-description";
     pOpenedNote.textContent = note.description;
     divOpenedNoteDescription.append(pOpenedNote);
 
