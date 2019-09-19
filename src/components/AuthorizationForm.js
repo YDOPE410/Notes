@@ -21,12 +21,16 @@ class AuthorizationForm extends React.Component {
     }
 
     handleChangePass(event) {
+        if (event.target.value.length == 0) {
+            this.setState({hidePass:false, password: event.target.value });
+            return;
+        }
         this.setState({hidePass:true, password: event.target.value });
     }
 
     render() {
         return (
-            <>
+            <div className='authorizationForm'>
                 <Avatar />
                 <form>
                     <input
@@ -60,8 +64,12 @@ class AuthorizationForm extends React.Component {
                         }}
                         onChange={this.handleChangePass}
                     />
+                    <br />
+                    <input type='submit' value='Sign in'/>
+                    
+                   
                 </form>
-            </>
+            </div>
         )
     }
 }
