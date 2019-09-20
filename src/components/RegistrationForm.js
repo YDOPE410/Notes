@@ -1,5 +1,6 @@
 import React from 'react';
-import Avatar from './Avatar'
+import Avatar from './Avatar';
+import { Link } from 'react-router-dom';
 
 
 
@@ -25,7 +26,7 @@ class RegistrationForm extends React.Component {
     }
 
     handleChangePass(event) {
-        if (event.target.value.length == 0) {
+        if (event.target.value.length === 0) {
             this.setState({ hidePass: false, password: event.target.value });
             return;
         }
@@ -33,12 +34,15 @@ class RegistrationForm extends React.Component {
     }
 
     handleChangeRepeatPass(event) {
-        if (event.target.value.length == 0) {
+        if (event.target.value.length === 0) {
             this.setState({ hideRepeatPass: false, repeatPassword: event.target.value });
             return;
         }
         this.setState({ hideRepeatPass: true, repeatPassword: event.target.value });
     }
+
+  
+
 
     render() {
         return (
@@ -49,11 +53,11 @@ class RegistrationForm extends React.Component {
                         type='text'
                         defaultValue={this.state.defaultValueEmail}
                         onBlur={(e) => {
-                            if (e.target.value.length == 0)
+                            if (e.target.value.length === 0)
                                 e.target.value = this.state.defaultValueEmail
                         }}
                         onFocus={(e) => {
-                            if (e.target.value != this.state.email)
+                            if (e.target.value !== this.state.email)
                                 e.target.value = ""
                         }}
                         onChange={this.handleChangeEmail}
@@ -63,15 +67,15 @@ class RegistrationForm extends React.Component {
                         type={this.state.hidePass ? 'password' : 'text'}
                         defaultValue={this.state.defaultValuePass}
                         onBlur={(e) => {
-                            if (e.target.value.length == 0) {
+                            if (e.target.value.length === 0) {
                                 e.target.value = this.state.defaultValuePass
-                                this.state = { hidePass: false }
+                                this.setState({ hidePass: false })
                             }
                         }}
                         onFocus={(e) => {
-                            if (e.target.value != this.state.password) {
+                            if (e.target.value !== this.state.password) {
                                 e.target.value = ""
-                                this.state = { hidePass: true }
+                                this.setState({ hidePass: true })
                             }
                         }}
                         onChange={this.handleChangePass}
@@ -81,24 +85,26 @@ class RegistrationForm extends React.Component {
                         type={this.state.hideRepeatPass ? 'password' : 'text'}
                         defaultValue={this.state.defaultValueRepeatPass}
                         onBlur={(e) => {
-                            if (e.target.value.length == 0) {
+                            if (e.target.value.length === 0) {
                                 e.target.value = this.state.defaultValueRepeatPass
-                                this.state = { hidePass: false }
+                                this.setState({ hideRepeatPass: false })
                             }
                         }}
                         onFocus={(e) => {
-                            if (e.target.value != this.state.repeatPassword) {
+                            if (e.target.value !== this.state.repeatPassword) {
                                 e.target.value = ""
-                                this.state = { hideRepeatPass: true }
+                                this.setState({ hideRepeatPass: true })
                             }
                         }}
                         onChange={this.handleChangeRepeatPass}
                     />
                     <br />
                     <input type='submit' value='Sign up' />
-
+                    <br />
+                    <Link to='/'> Back to login </Link >
 
                 </form>
+
             </div>
 
         )
