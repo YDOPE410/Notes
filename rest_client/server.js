@@ -5,6 +5,8 @@ const app = express();
 const port = process.env.PORT || 8080;
 const mongoose = require('mongoose');
 const mongo_uri = 'mongodb://localhost/react-auth';
+const cors = require('cors');
+app.use(cors());
 mongoose.connect(mongo_uri, function(err) {
     if (err) {
       throw err;
@@ -14,7 +16,7 @@ mongoose.connect(mongo_uri, function(err) {
   });
 app.use(express.static(path.join(__dirname, 'build')));
 
-app.get('/login', function(req, res) {
+app.get('/get-login-data', function(req, res) {
     res.send('Welcome!');
   });
 

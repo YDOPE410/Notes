@@ -10,103 +10,59 @@ class RegistrationForm extends React.Component {
         this.state = {
             email: "",
             password: "",
-            repeatPassword: "",
-            defaultValueEmail: "Email",
-            defaultValuePass: "Password",
-            defaultValueRepeatPass: "Repeat password",
-            hidePass: false,
-            hideRepeatPass: false
+            repeatPassword: ""
         }
-        this.handleChangeEmail = this.handleChangeEmail.bind(this);
-        this.handleChangePass = this.handleChangePass.bind(this);
-        this.handleChangeRepeatPass = this.handleChangeRepeatPass.bind(this);
-    }
-    handleChangeEmail(event) {
-        this.setState({ email: event.target.value });
-    }
 
-    handleChangePass(event) {
-        if (event.target.value.length === 0) {
-            this.setState({ hidePass: false, password: event.target.value });
-            return;
+    }
+    handleChangeInput = (event) => this.setState({ [event.target.name]: event.target.value });
+
+    loginAct = () => {
+        if (this.state.repeatPassword === this.state.password && this.state.email !== '') {
+            fetch("http://localhost:8080/login")
+                .then(res => {
+                    if (res.status === 200) {
+                        console.log('good');
+                    }
+                    else {
+                        
+                    }
+                })
         }
-        this.setState({ hidePass: true, password: event.target.value });
-    }
-
-    handleChangeRepeatPass(event) {
-        if (event.target.value.length === 0) {
-            this.setState({ hideRepeatPass: false, repeatPassword: event.target.value });
-            return;
+        else {
+            console.log("The passwords are different! Or email is empty")
         }
-        this.setState({ hideRepeatPass: true, repeatPassword: event.target.value });
     }
-
-  
 
 
     render() {
         return (
             <div className='registrationForm'>
                 <Avatar />
-                <form>
-                    <input
-                        type='text'
-                        defaultValue={this.state.defaultValueEmail}
-                        onBlur={(e) => {
-                            if (e.target.value.length === 0)
-                                e.target.value = this.state.defaultValueEmail
-                        }}
-                        onFocus={(e) => {
-                            if (e.target.value !== this.state.email)
-                                e.target.value = ""
-                        }}
-                        onChange={this.handleChangeEmail}
-                    />
-                    <br />
-                    <input
-                        type={this.state.hidePass ? 'password' : 'text'}
-                        defaultValue={this.state.defaultValuePass}
-                        onBlur={(e) => {
-                            if (e.target.value.length === 0) {
-                                e.target.value = this.state.defaultValuePass
-                                this.setState({ hidePass: false })
-                            }
-                        }}
-                        onFocus={(e) => {
-                            if (e.target.value !== this.state.password) {
-                                e.target.value = ""
-                                this.setState({ hidePass: true })
-                            }
-                        }}
-                        onChange={this.handleChangePass}
-                    />
-                    <br />
-                    <input
-                        type={this.state.hideRepeatPass ? 'password' : 'text'}
-                        defaultValue={this.state.defaultValueRepeatPass}
-                        onBlur={(e) => {
-                            if (e.target.value.length === 0) {
-                                e.target.value = this.state.defaultValueRepeatPass
-                                this.setState({ hideRepeatPass: false })
-                            }
-                        }}
-                        onFocus={(e) => {
-                            if (e.target.value !== this.state.repeatPassword) {
-                                e.target.value = ""
-                                this.setState({ hideRepeatPass: true })
-                            }
-                        }}
-                        onChange={this.handleChangeRepeatPass}
-                    />
-                    <br />
-                    <input type='submit' value='Sign up' />
-                    <br />
-                    <Link to='/'> Back to login </Link >
-
-                </form>
-
+                <input
+                    name='email'
+                    type='text'
+                    placeholder='Email'
+                    onChange={this.handleChangeInput}
+                />
+                <br />
+                <input
+                    name='password'
+                    type='password'
+                    placeholder='Password'
+                    onChange={this.handleChangeInput}
+                />
+                <br />
+                <input
+                    name='repeatPassword'
+                    type='password'
+                    placeholder='Password'
+                    onChange={this.handleChangeInput}
+                />
+                <br />
+                <input onClick={this.loginAct} type='submit' value='Sign in' />
+                <br />
+                <Link to='/' > Back to login </Link>
             </div>
-
         )
     }
 }

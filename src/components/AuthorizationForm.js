@@ -9,26 +9,11 @@ class AuthorizationForm extends React.Component {
         this.state = {
             email: "",
             password: "",
-            defaultValueEmail: "Email",
-            defaultValuePass: "Password",
-            hidePass: false
         }
-        this.handleChangeEmail = this.handleChangeEmail.bind(this);
-        this.handleChangePass = this.handleChangePass.bind(this);
+
     }
 
-
-    handleChangeEmail(event) {
-        this.setState({ email: event.target.value });
-    }
-
-    handleChangePass(event) {
-        if (event.target.value.length === 0) {
-            this.setState({ hidePass: false, password: event.target.value });
-            return;
-        }
-        this.setState({ hidePass: true, password: event.target.value });
-    }
+    handleChangeInput = (event) => this.setState({ [event.target.name]: event.target.value });
 
     render() {
         return (
@@ -36,44 +21,22 @@ class AuthorizationForm extends React.Component {
                 <Avatar />
                 <form>
                     <input
+                        name='email'
                         type='text'
-                        defaultValue={this.state.defaultValueEmail}
-                        onBlur={(e) => {
-                            if (e.target.value.length === 0)
-                                e.target.value = this.state.defaultValueEmail
-                        }}
-                        onFocus={(e) => {
-                            if (e.target.value !== this.state.email)
-                                e.target.value = ""
-                        }}
-                        onChange={this.handleChangeEmail}
+                        placeholder='Email'
+                        onChange={this.handleChangeInput}
                     />
                     <br />
                     <input
-                        type={this.state.hidePass ? 'password' : 'text'}
-                        defaultValue={this.state.defaultValuePass}
-                        onBlur={(e) => {
-                            if (e.target.value.length === 0) {
-                                e.target.value = this.state.defaultValuePass
-                                this.setState({ hidePass: false })
-                            }
-                        }}
-                        onFocus={(e) => {
-                            if (e.target.value !== this.state.password) {
-                                e.target.value = ""
-                                this.setState({ hidePass: true })
-                            }
-                        }}
-                        onChange={this.handleChangePass}
+                        name='password'
+                        type='password'
+                        placeholder='Password'
+                        onChange={this.handleChangeInput}
                     />
                     <br />
                     <input type='submit' value='Sign in' />
                     <br />
-                   
-                        <Link to='/registration' > Registration </Link>
-                        
-
-
+                    <Link to='/registration' > Registration </Link>
                 </form>
             </div>
         )
