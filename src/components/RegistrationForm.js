@@ -27,7 +27,7 @@ class RegistrationForm extends React.Component {
                             'Content-Type': 'application/json;charset=utf-8'
                         }
                     }).then(res => {
-                            console.log("almost reg")
+
                             
                         })
                 }
