@@ -14,7 +14,7 @@ class App extends React.Component {
         
           <Route exact path='/' component={AuthorizationForm}/>
           <Route exact path='/registration' component={RegistrationForm}/>
-
+          <Route exact path='/user/notes' component={null}/>
       </BrowserRouter>
     )
   }

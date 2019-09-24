@@ -12,7 +12,6 @@ class RegistrationForm extends React.Component {
             password: '',
             repeatPassword: ''
         }
-
     }
     handleChangeInput = (event) => this.setState({ [event.target.name]: event.target.value });
 
@@ -24,10 +23,14 @@ class RegistrationForm extends React.Component {
                     fetch('http://localhost:8080/registration', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json;charset=utf-8'
+                            'Content-Type': 'application/json;charset=utf-8',
+                            body: JSON.stringify({email: this.state.email, password: this.state.password})
                         }
                     }).then(res => {
-
+                            if(res.status === 200) {
+                                alert('Successful registration');
+                                this.props.history.push('/');
+                            }
                             
                         })
                 }
@@ -35,11 +38,6 @@ class RegistrationForm extends React.Component {
                     alert('email is exists');
                 }
             });
-        
-
-           
-
-            
         }
         else {
             console.log('The passwords are different! Or email is empty')
