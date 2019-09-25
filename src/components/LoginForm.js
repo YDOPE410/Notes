@@ -1,27 +1,26 @@
 import React from 'react';
-import "../styles/registration.css";
+import '../styles/login.css'
 import { Link } from 'react-router-dom';
 
-export default class RegistrationForm extends React.Component {
+export default class LoginForm extends React.Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
-            email: '',
-            password: '',
-            repeatPassword: '',
-            error: ''           
+            email: "",
+            password: "",
+            error: ""
         }
+
     }
 
     handleChangeInput = (event) => this.setState({ [event.target.name]: event.target.value });
 
+
     render() {
         return (
-            <div className='registration form'>
-                <div
-                    className='registration form-wrap'
-                >
-                     <span className='registration form-title'>Registration</span>
+            <div className='login form'>
+                <div className='login form-wrap'>
+                    <span className='login form-title'>Welcome</span>
                     <br />
                     <input
                         className='login form-input'
@@ -40,20 +39,13 @@ export default class RegistrationForm extends React.Component {
                     />
                     <br />
                     <input
-                        className='login form-input'
-                        name='repeatPassword'
-                        type='password'
-                        placeholder='Repeat password'
-                        onChange={this.handleChangeInput}
-                    />
-                    <br />
-                    <input
                         className='login form-submit'
                         onClick={null}
                         type='submit'
-                        value='Sign in' />
+                        value='Sign in'
+                    />
                     <br />
-                    <Link to='/' >Back to login</Link>
+                    <Link to='/registration' > Registration </Link>
                     <br />
                     <span >
                         {this.state.error}
@@ -63,3 +55,4 @@ export default class RegistrationForm extends React.Component {
         )
     }
 }
+
