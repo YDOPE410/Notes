@@ -1,6 +1,6 @@
 import React from 'react';
 import LoginForm from './LoginForm'
-import { Route, BrowserRouter } from 'react-router-dom';
+import { Route, BrowserRouter, Switch } from 'react-router-dom';
 import RegistrationForm from './RegistrationForm';
 import NotesContainer from './NotesContainer'
 import '../styles/App.css';
@@ -8,13 +8,15 @@ import '../styles/App.css';
 
 
 
-export default  class App extends React.Component {
+export default class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
-          <Route exact path='/' component={LoginForm}/>
-          <Route exact path='/user/notes' component={NotesContainer}/>
-          <Route exact path='/registration' component={RegistrationForm}/>
+        <Switch >
+          <Route exact path='/user/notes' component={NotesContainer} />
+          <Route exact path='/registration' component={RegistrationForm} />
+          <Route component={LoginForm} />
+        </Switch>
       </BrowserRouter>
     )
   }

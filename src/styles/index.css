@@ -13,6 +13,19 @@ background: linear-gradient(to right, #f2f2f2, #ece6e6);
 text-decoration: none;
 min-width: 690px;
 }
+a:-webkit-any-link {
+  text-decoration: none;
+  color: black;
+ }
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+ul li {
+  padding: 0;
+  margin: 0;
+}
  * {
   padding: 0;
   box-sizing: border-box;

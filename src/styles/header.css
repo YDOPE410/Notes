@@ -1,0 +1,47 @@
+.header {
+    height: 6.5vh;
+    background: #d6e0e4;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+    align-content: center;
+}
+
+.user {
+    display: flex;
+}
+
+.user * {
+margin-left: 10px;
+}
+
+.navbar ul{
+    display: flex;
+}
+
+.navbar ul li {
+    margin-left: 20px;
+}
+
+.exit {
+   padding-right: 20px;
+}
+
+.flex-item {
+    height: 70px;
+    line-height: 70px;
+    text-align: center;
+}
+
+ul.submenu {
+    display: none;   
+}
+
+ul.menu > li:hover {
+    cursor: pointer;
+}
+
+ul.menu > li:hover > ul.submenu {
+    display: block;
+}

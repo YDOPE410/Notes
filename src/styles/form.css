@@ -44,10 +44,7 @@
     cursor: pointer;
 }
 
-a:-webkit-any-link {
- text-decoration: none;
- color: black;
-}
+
 
 .form-input {
     height: 30px;
