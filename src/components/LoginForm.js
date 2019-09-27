@@ -15,6 +15,24 @@ export default class LoginForm extends React.Component {
 
     handleChangeInput = (event) => this.setState({ [event.target.name]: event.target.value });
 
+    loginAction = (event) => {
+        fetch('http://localhost:3001/authenticate', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ email: this.state.email, password: this.state.password })
+        }).then(res => {
+            return res.json();
+        }).then(res => {
+            if (res.token) {
+                localStorage.setItem("userToken", res.token);
+                this.props.history.push('/user/notes');
+            } else if (res.error) {
+                this.setState({ error: res.error });
+            }
+        })
+    }
 
     render() {
         return (
@@ -40,7 +58,7 @@ export default class LoginForm extends React.Component {
                     <br />
                     <input
                         className='login form-submit'
-                        onClick={null}
+                        onClick={this.loginAction}
                         type='submit'
                         value='Sign in'
                     />

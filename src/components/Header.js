@@ -1,8 +1,19 @@
 import React from 'react';
 import '../styles/header.css';
 import Avatar from './Avatar';
+import { withRouter } from "react-router";
 
-export default class Header extends React.Component {
+
+class Header extends React.Component {
+    constructor(props) {
+        super(props)
+    }
+
+
+    logoutAction = (event) => {
+        localStorage.removeItem('userToken');
+        this.props.history.push('/');
+    }
 
     render() {
         return (
@@ -43,9 +54,11 @@ export default class Header extends React.Component {
                 <div
                     className='exit flex-item'
                 >
-                    <i>Logout</i>
+                    <input type='button' value='Logout' onClick={this.logoutAction} />
                 </div>
             </div>
         )
     }
 }
+
+export default withRouter(Header);

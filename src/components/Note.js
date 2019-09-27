@@ -5,7 +5,7 @@ export default class Note extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: 'sda',
+            id: props.id,
             title: "asdasd",
             description: "asdasdsadasda",
             x: 0,
@@ -22,6 +22,7 @@ export default class Note extends React.Component {
     moveAt = (e, shiftX, shiftY) => {
         this.currentNote.style.left = e.pageX - shiftX + 'px';
         this.currentNote.style.top = e.pageY - shiftY + 'px';
+        this.setState({ x: e.pageX - shiftX, y: e.pageY - shiftY });
     }
 
     getCoords = (elem) => {
@@ -30,7 +31,6 @@ export default class Note extends React.Component {
             top: box.top + window.pageYOffset,
             left: box.left + window.pageXOffset
         }
-        this.setState({ x: res.left, y: res.top });
         return res;
     }
 
@@ -51,6 +51,10 @@ export default class Note extends React.Component {
         document.onmousemove = null;
         return null;
     }
+
+    // onDoubleClickHandler = (e) {
+    // }
+    
 
     render() {
         return (

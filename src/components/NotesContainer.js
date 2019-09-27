@@ -6,7 +6,6 @@ import Note from './Note';
 
 export default class NotesContainer extends React.Component {
 
-
     render() {
         return (
             <>
@@ -14,7 +13,7 @@ export default class NotesContainer extends React.Component {
                 <div
                     id='notes-container'
                 >
-                    <Note/>
+                    <Note id='asd' title='' description='' x={0} y={0} />
                  
                 </div>
             </>
