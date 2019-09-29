@@ -4,15 +4,16 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const port = process.env.PORT || 3001;
 const mongoUri = 'mongodb://localhost/react-auth';
-const homeRouter = require('./routes/homepage')
+const homeRouter = require('./routes/homepage');
+const notesRouter = require('./routes/notes')
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(morgan('tiny'));
+app.use(notesRouter);
 app.use(homeRouter);
 
-
-mongoose.connect(mongoUri, { useNewUrlParser: true }, function(err) {
+mongoose.connect(mongoUri, { useNewUrlParser: true, useFindAndModify: false }, function(err) {
   if (err) {
     throw err;
   } else {

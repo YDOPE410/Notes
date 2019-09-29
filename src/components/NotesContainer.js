@@ -1,10 +1,29 @@
 import React from 'react';
 import Header from './Header';
 import '../styles/notesContainer.css'
-import Note from './Note';
+import Note from './Note'
+import NewNote from './NewNote';
 
 
 export default class NotesContainer extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.displayData = [];
+
+        this.state = {
+            showdata: this.displayData,
+        }
+    }
+    
+    handler = (value) =>{
+        this.displayData.push(value);
+        this.setState({
+            showdata: this.displayData
+        })
+       
+    }
 
     render() {
         return (
@@ -13,9 +32,9 @@ export default class NotesContainer extends React.Component {
                 <div
                     id='notes-container'
                 >
-                    <Note id='asd' title='' description='' x={0} y={0} />
-                 
+                    {this.displayData}
                 </div>
+                <NewNote addHandler={this.handler}/>
             </>
         )
     }

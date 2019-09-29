@@ -6,10 +6,10 @@ export default class Note extends React.Component {
         super(props);
         this.state = {
             id: props.id,
-            title: "asdasd",
-            description: "asdasdsadasda",
-            x: 0,
-            y: 0
+            title: props.title,
+            description: props.description,
+            x: props.x,
+            y: props.y
         }
 
     }
@@ -38,8 +38,7 @@ export default class Note extends React.Component {
         document.getElementById('notes-container').style.cursor = 'grabbing';
         let coords = this.getCoords(this.currentNote);
         let shiftX = e.pageX - coords.left;
-        let shiftY = e.pageY - coords.top + 71.56;
-        console.log(`${shiftY} = ${e.pageY} - ${coords.top}`)
+        let shiftY = e.pageY - coords.top + 6.5*document.documentElement.clientHeight/100;
         this.moveAt(e, shiftX, shiftY);
         document.onmousemove = (e) => {
             this.moveAt(e, shiftX, shiftY);

@@ -1,0 +1,12 @@
+[0;1;31m●[0m mongodb.service - MongoDB Database
+   Loaded: loaded (/etc/systemd/system/mongodb.service; disabled; vendor preset: enabled)
+   Active: [0;1;31mfailed[0m (Result: exit-code) since Thu 2019-09-26 21:37:36 EEST; 1min 17s ago
+     Docs: https://docs.mongodb.org/manual
+  Process: 10460 ExecStart=/usr/bin/mongod --quiet --config /etc/mongod.conf [0;1;31m(code=exited, status=217/USER)[0m
+ Main PID: 10460 (code=exited, status=217/USER)
+
+сен 26 21:37:36 Master systemd[1]: Started MongoDB Database.
+сен 26 21:37:36 Master systemd[10460]: [0;1;31m[0;1;39m[0;1;31mmongodb.service: Failed to determine user credentials: No such process[0m
+сен 26 21:37:36 Master systemd[10460]: [0;1;31m[0;1;39m[0;1;31mmongodb.service: Failed at step USER spawning /usr/bin/mongod: No such process[0m
+сен 26 21:37:36 Master systemd[1]: [0;1;39m[0;1;31m[0;1;39mmongodb.service: Main process exited, code=exited, status=217/USER[0m
+сен 26 21:37:36 Master systemd[1]: [0;1;39m[0;1;31m[0;1;39mmongodb.service: Failed with result 'exit-code'.[0m

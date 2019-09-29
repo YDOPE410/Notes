@@ -15,6 +15,10 @@ class Header extends React.Component {
         this.props.history.push('/');
     }
 
+    addNoteAction = (event) => {
+        document.getElementById('new-note').hidden = !document.getElementById('new-note').hidden;
+    }
+    
     render() {
         return (
             <div className='header'>
@@ -35,7 +39,7 @@ class Header extends React.Component {
                 >
                     <ul className='menu'>
                         <li>
-                            Add note
+                             <input onClick={this.addNoteAction} type='submit' value='Add note'/>
                         </li>
                         <li>
                             Help
