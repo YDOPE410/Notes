@@ -44,11 +44,12 @@ class Header extends React.Component {
                         <li>
                             Help
                             <ul className='submenu'>
-                                <li>Add new note: ctrl+alt+n or click 'Add note' at bar</li>
+                                <li>Add new note: click 'Add note' at bar</li>
                                 <li>Open note: double click on note</li>
                                 <li>Close note: click CLOSE on opened note</li>
                                 <li>Remove note: click X on minimized note</li>
                                 <li>You can drag and drop your note</li>
+                                <li>You can edit your note: double click on title or description -> change -> click 'Edit' to save</li>
                             </ul>
                         </li>
 

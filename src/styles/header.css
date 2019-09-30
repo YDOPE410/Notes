@@ -35,8 +35,8 @@ margin-left: 10px;
 }
 
 ul.submenu {
-    display: none;   
-}
+    display: none;
+position: absolute;}
 
 ul.menu > li:hover {
     cursor: pointer;
