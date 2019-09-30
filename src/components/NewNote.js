@@ -13,7 +13,7 @@ export default class NewNote extends React.Component {
     }
     uuid = () => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'.
         replace(/[x]/g,
-            (c, r) => ('x' == c ?
+            (c, r) => ('x' === c ?
                 (r = Math.random() * 16 | 0) :
                 (r & 0x3 | 0x8)).toString(16));
 
